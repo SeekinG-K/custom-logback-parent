@@ -35,7 +35,7 @@ public class CustomMDCInsertingServletFilter extends MDCInsertingServletFilter {
         if (servletRequest instanceof HttpServletRequest && servletResponse instanceof HttpServletResponse) {
             HttpServletRequest request = (HttpServletRequest) servletRequest;
             HttpServletResponse response = (HttpServletResponse) servletResponse;
-            MDC.put(RequestMappingConstant.REQUEST_UNIQUE_CODE, UUID.randomUUID().toString());
+//            MDC.put(RequestMappingConstant.REQUEST_UNIQUE_CODE, UUID.randomUUID().toString());
             MDC.put(RequestMappingConstant.HTTP_ACCEPT, request.getHeader("Accept"));
             MDC.put(RequestMappingConstant.HTTP_CONTENT_LENGTH, String.valueOf(request.getContentLength()));
             MDC.put(RequestMappingConstant.HTTP_CONTENT_TYPE, request.getContentType());
@@ -54,7 +54,6 @@ public class CustomMDCInsertingServletFilter extends MDCInsertingServletFilter {
     }
 
     void clearMDC() {
-        MDC.remove(RequestMappingConstant.REQUEST_UNIQUE_CODE);
         MDC.remove(RequestMappingConstant.HTTP_ACCEPT);
         MDC.remove(RequestMappingConstant.HTTP_CONTENT_LENGTH);
         MDC.remove(RequestMappingConstant.HTTP_CONTENT_TYPE);
