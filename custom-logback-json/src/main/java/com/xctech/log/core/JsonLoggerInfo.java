@@ -1,8 +1,5 @@
 package com.xctech.log.core;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.time.DateFormatUtils;
 
 import java.util.Map;
@@ -46,9 +43,46 @@ public class JsonLoggerInfo {
     /**
      * 日志时间
      */
-    private String appTimeStamp;
+    private String app_timestamp;
+    /**
+     * 日志时间
+     */
+    private String parentId;
 
-    public JsonLoggerInfo(String level, String logger, String logEventType, String thread, String message, Map<String, String> map, String stackTrace, long timeMillis) {
+    public String getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(String parentId) {
+        this.parentId = parentId;
+    }
+
+    public String getSpanId() {
+        return spanId;
+    }
+
+    public void setSpanId(String spanId) {
+        this.spanId = spanId;
+    }
+
+    public String getTraceId() {
+        return traceId;
+    }
+
+    public void setTraceId(String traceId) {
+        this.traceId = traceId;
+    }
+
+    /**
+     * 日志时间
+     */
+    private String spanId;
+    /**
+     * 日志时间
+     */
+    private String traceId;
+
+    public JsonLoggerInfo(String level, String logger, String logEventType, String thread, String message, Map<String, String> map, String stackTrace, long timeMillis, String p, String s ,String t) {
         this.level = level;
         this.logger = logger;
         this.logEventType = logEventType;
@@ -56,7 +90,10 @@ public class JsonLoggerInfo {
         this.message = message;
         this.map = map;
         this.stackTrace = stackTrace;
-        this.appTimeStamp = DateFormatUtils.format(timeMillis, "yyyy-MM-dd'T'HH:mm:ss.SSS");
+        this.app_timestamp = DateFormatUtils.format(timeMillis, "yyyy-MM-dd'T'HH:mm:ss.SSS");
+        this.parentId = p;
+        this.spanId = s;
+        this.traceId = t;
     }
 
     public String getLevel() {
@@ -91,12 +128,12 @@ public class JsonLoggerInfo {
         this.message = message;
     }
 
-    public String getAppTimeStamp() {
-        return appTimeStamp;
+    public String getApp_timestamp() {
+        return app_timestamp;
     }
 
-    public void setAppTimeStamp(String appTimeStamp) {
-        this.appTimeStamp = appTimeStamp;
+    public void setApp_timestamp(String app_timestamp) {
+        this.app_timestamp = app_timestamp;
     }
 
     public String getStackTrace() {
@@ -121,17 +158,5 @@ public class JsonLoggerInfo {
 
     public void setMap(Map<String, String> map) {
         this.map = map;
-    }
-
-    @Override
-    public String toString() {
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            objectMapper.setSerializationInclusion(JsonInclude.Include.NON_DEFAULT);
-            return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(this);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 }

@@ -1,6 +1,7 @@
 package com.xctech.log.filter;
 
 import ch.qos.logback.classic.helpers.MDCInsertingServletFilter;
+import com.xctech.log.core.constant.LogConstant;
 import com.xctech.log.core.constant.RequestMappingConstant;
 import org.slf4j.MDC;
 
@@ -36,6 +37,7 @@ public class CustomMDCInsertingServletFilter extends MDCInsertingServletFilter {
             HttpServletRequest request = (HttpServletRequest) servletRequest;
             HttpServletResponse response = (HttpServletResponse) servletResponse;
 //            MDC.put(RequestMappingConstant.REQUEST_UNIQUE_CODE, UUID.randomUUID().toString());
+            MDC.put(LogConstant.LOG_EVENT_TYPE, "accessLog");
             MDC.put(RequestMappingConstant.HTTP_ACCEPT, request.getHeader("Accept"));
             MDC.put(RequestMappingConstant.HTTP_CONTENT_LENGTH, String.valueOf(request.getContentLength()));
             MDC.put(RequestMappingConstant.HTTP_CONTENT_TYPE, request.getContentType());
