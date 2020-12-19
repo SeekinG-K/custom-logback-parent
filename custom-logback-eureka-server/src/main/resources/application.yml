@@ -1,0 +1,33 @@
+server:
+  port: 7001
+eureka:
+  instance:
+    hostname: localhost #eureka服务端的实例名称
+    lease-expiration-duration-in-seconds: 60 #表示eureka server至上一次收到client的心跳之后，等待下一次心跳的超时时间
+  client:
+    register-with-eureka: false     #false表示不向注册中心注册自己。
+    fetch-registry: false     #false表示自己端就是注册中心，我的职责就是维护服务实例，并不需要去检索服务
+    service-url:
+      #集群指向其它eureka
+      #      defaultZone: http://eureka7002.com:7002/eureka/
+      #单机就是7001自己
+      # 设置与Eureka Server交互的地址查询服务和注册服务都需要依赖这个地址
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+    #  server:
+    #关闭自我保护机制，保证不可用服务被及时踢除
+      enable-self-preservation: true
+    # 清理增量队列中过期的频率
+  server:
+    eviction-interval-timer-in-ms: 5000 #服务清理间隔单位毫秒
+    enable-self-preservation: false #关闭注册中心的保护机制，Eureka 会统计15分钟之内心跳失败的比例低于85%将会触发保护机制，不剔除服务提供者，如果关闭服务注册中心将不可用的实例正确剔除
+    responseCacheUpdateIntervalMs: 3000 #刷新readCacheMap的时间
+#actuator监控点
+management:
+  endpoints:
+    web:
+      base-path: /
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always

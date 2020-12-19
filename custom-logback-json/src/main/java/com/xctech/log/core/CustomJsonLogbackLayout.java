@@ -1,29 +1,19 @@
 package com.xctech.log.core;
 
-import brave.Tracer;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.LayoutBase;
 import com.alibaba.fastjson.JSON;
 import com.xctech.log.core.constant.LogConstant;
 import com.xctech.log.core.constant.RequestMappingConstant;
-import org.springframework.beans.BeansException;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
-import org.springframework.stereotype.Component;
-
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-
-@Component
-public class CustomJsonLogbackLayout extends LayoutBase<ILoggingEvent> implements ApplicationContextAware {
-    private Tracer tracer;
+public class CustomJsonLogbackLayout extends LayoutBase<ILoggingEvent> {
 
     @Override
     public String doLayout(ILoggingEvent event) {
         Map<String, String> mdcPropertyMap = event.getMDCPropertyMap();
         Map<String, String> map = new LinkedHashMap<>();
-
         map.put(RequestMappingConstant.HTTP_ACCEPT, mdcPropertyMap.get(RequestMappingConstant.HTTP_ACCEPT));
         map.put(RequestMappingConstant.HTTP_CONTENT_LENGTH, mdcPropertyMap.get(RequestMappingConstant.HTTP_CONTENT_LENGTH));
         map.put(RequestMappingConstant.HTTP_CONTENT_TYPE, mdcPropertyMap.get(RequestMappingConstant.HTTP_CONTENT_TYPE));
@@ -37,24 +27,16 @@ public class CustomJsonLogbackLayout extends LayoutBase<ILoggingEvent> implement
         map.put(RequestMappingConstant.HTTP_STATUS_CODE, mdcPropertyMap.get(RequestMappingConstant.HTTP_STATUS_CODE));
         map.put(RequestMappingConstant.HTTP_USER_AGENT, mdcPropertyMap.get(RequestMappingConstant.HTTP_USER_AGENT));
         map.put(RequestMappingConstant.HTTP_VERSION, mdcPropertyMap.get(RequestMappingConstant.HTTP_VERSION));
-        String parentIdString = null;
-        String spanIdString = null;
-        String traceIdString = null;
-        if (tracer!=null) {
-            parentIdString = tracer.currentSpan().context().parentIdString();
-            traceIdString = tracer.currentSpan().context().traceIdString();
-            spanIdString = tracer.currentSpan().context().spanIdString();
-        }
         JsonLoggerInfo jsonLoggerInfo = new JsonLoggerInfo(
                 event.getLevel().levelStr,
                 event.getLoggerName(),
-                mdcPropertyMap.getOrDefault(LogConstant.LOG_EVENT_TYPE,"appLog"),
+                mdcPropertyMap.getOrDefault(LogConstant.LOG_EVENT_TYPE, "appLog"),
                 event.getThreadName(),
                 event.toString(),
                 map,
                 event.getThrowableProxy() != null ? event.getThrowableProxy().getMessage() : null,
                 event.getTimeStamp(),
-                mdcPropertyMap.get("X-B3-ParentSpandId"),
+                mdcPropertyMap.get("parentId"),
                 mdcPropertyMap.get("spanId"),
                 mdcPropertyMap.get("traceId")
         );
@@ -64,13 +46,8 @@ public class CustomJsonLogbackLayout extends LayoutBase<ILoggingEvent> implement
 
     private String getPrettyFastJsonStr(Object object) {
         String data = JSON.toJSONString(object, true);
-        data = data.replace("\":\"","\": \"");
-        data = data.replace("\t","  ");
+        data = data.replace("\":\"", "\": \"");
+        data = data.replace("\t", "  ");
         return data;
-    }
-
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.tracer = applicationContext.getBean(Tracer.class);
     }
 }
