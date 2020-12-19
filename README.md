@@ -3,10 +3,10 @@
 logback custom
 自定义Json输出日志格式
 
-##v1.0.0.RELEASE
+## v1.0.0.RELEASE
     完成Json日志格式改造
 
-##v1.1.0.RELEASE
+## v1.1.0.RELEASE
     整合Spring-cloud 实现分布式链路追踪，且保存分布式下服务链路的请求信息
 
 ```json
