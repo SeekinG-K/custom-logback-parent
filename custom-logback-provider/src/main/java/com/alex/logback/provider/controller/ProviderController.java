@@ -13,10 +13,12 @@ import java.util.Map;
 
 @Controller
 @Slf4j
+@RequestMapping("/provider")
 public class ProviderController {
 
-    @RequestMapping("/provider")
+
     @ResponseBody
+    @RequestMapping("/providerData")
     public String provider() {
         Map<String, String> copyOfContextMap = MDC.getCopyOfContextMap();
         log.info("aaa");

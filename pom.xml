@@ -15,6 +15,7 @@
         <module>custom-logback-eureka-server</module>
         <module>custom-logback-provider</module>
         <module>custom-logback-consumer</module>
+        <module>custom-logback-gateway</module>
     </modules>
 
     <properties>

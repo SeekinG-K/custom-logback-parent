@@ -13,12 +13,13 @@ import java.util.Map;
 
 @Controller
 @Slf4j
+@RequestMapping("/consumer")
 public class ConsumerController {
 
     @Autowired
     private ProviderFeignClient providerFeignClient;
 
-    @RequestMapping("/consumer")
+    @RequestMapping("/request")
     @ResponseBody
     public String consumer() {
         String provider = providerFeignClient.provider();
