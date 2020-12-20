@@ -9,7 +9,6 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>custom-logback-provider</artifactId>
-    <version>1.0.0</version>
     <description>Demo project for Spring Boot</description>
 
     <dependencies>

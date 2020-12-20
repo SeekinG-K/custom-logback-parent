@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.alex.zipkin</groupId>
 	<artifactId>custom-logback-zipkin-server</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.0.RELEASE</version>
 	<name>custom-logback-zipkin-server</name>
 	<description>zipkin server</description>
 

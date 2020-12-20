@@ -9,7 +9,6 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>custom-logback-consumer</artifactId>
-    <version>1.0.0</version>
     <description>consumer</description>
 
     <dependencies>
