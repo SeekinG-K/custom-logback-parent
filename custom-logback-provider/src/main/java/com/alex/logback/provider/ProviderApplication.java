@@ -1,4 +1,4 @@
-package com.alex.logback;
+package com.alex.logback.provider;
 
 import com.xctech.log.annotation.EnableJsonLogback;
 import org.springframework.boot.SpringApplication;
